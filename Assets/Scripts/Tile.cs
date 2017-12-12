@@ -44,5 +44,22 @@ public class Tile : MonoBehaviour
         //check if color is valid for the player
 
         return true;
-    }    
+    }
+
+    public void ChangeColor(Unit.Color color)
+    {
+        Material tileMaterial = GetComponentInChildren<Renderer>().material;
+        switch (color)
+        {
+            case Unit.Color.Blue:
+                tileMaterial.color = Color.blue;
+                break;
+            case Unit.Color.Red:
+                tileMaterial.color = Color.red;
+                break;
+            case Unit.Color.Green:
+                tileMaterial.color = Color.green;
+                break;
+        }
+    }
 }

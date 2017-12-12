@@ -6,6 +6,10 @@ public class Unit : MonoBehaviour
 {
     public Tile occupiedTile;
 
+    public enum Color { Red, Blue, Green };
+
+    public Color color = Color.Red;
+
     [SerializeField]
     float movementDuration = 0.5f;
 
@@ -47,5 +51,7 @@ public class Unit : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
+
+        tileB.ChangeColor(color);
     }
 }
