@@ -11,11 +11,26 @@ public class Unit : MonoBehaviour
 
     public IEnumerator Move(List<Tile> tileMovements)
     {
+        Tile currentTile;
+
         int i = 0;
+
         while (i < tileMovements.Count)
         {
+            if (i == 0)
+            {
+                currentTile = occupiedTile;
+            }
+            else
+            {
+                currentTile = tileMovements[i - 1];
+            }
+
+            Tile targetTile = tileMovements[i];
+
             i++;
-            yield return StartCoroutine(MoveTile(occupiedTile, tileMovements[i - 1]));
+
+            yield return StartCoroutine(MoveTile(currentTile, targetTile));            
         }
 
         occupiedTile = tileMovements[tileMovements.Count - 1];
@@ -32,6 +47,5 @@ public class Unit : MonoBehaviour
             currentTime += Time.deltaTime;
             yield return null;
         }
-        occupiedTile = tileB;
     }
 }

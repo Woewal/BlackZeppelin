@@ -16,7 +16,6 @@ public class AStar
 
     public List<Tile> GetPath(Vector2 beginPos, Vector2 endPos, Unit unit)
     {
-        Debug.Log("Calculating path");
 
         openTiles = new List<Tile>();
         closedTiles = new List<Tile>();
@@ -81,11 +80,6 @@ public class AStar
 
         path.Reverse();
 
-        if (path == null)
-        {
-            Debug.LogError("STUQUE");
-        }
-
         return path;
     }
 
@@ -104,11 +98,11 @@ public class AStar
     {
         List<Tile> neighboors = new List<Tile>();
 
-        if(tile.x - 1 > 0)
+        if(tile.x - 1 >= 0)
         {
             neighboors.Add(tiles[tile.x - 1, tile.y]);
         }
-        if(tile.y - 1 > 0)
+        if(tile.y - 1 >= 0)
         {
             neighboors.Add(tiles[tile.x, tile.y -1]);
         }

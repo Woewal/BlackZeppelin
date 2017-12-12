@@ -11,6 +11,8 @@ public class Board : MonoBehaviour
 
     public Tile[,] tiles;
 
+    public Material tileSelectedMaterial;
+
     private void Start()
     {
         instance = this;

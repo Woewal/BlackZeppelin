@@ -22,11 +22,14 @@ public class Tile : MonoBehaviour
 
     public bool walkAble = true;
 
+    public Unit occupyingUnit;
+
     private void OnMouseDown()
     {
         Unit unit = Board.instance.selectedUnit;
 
         List<Tile> tilesToDestination = Board.instance.pathFinder.GetPath(new Vector2(unit.occupiedTile.x,unit.occupiedTile.y), new Vector2(x, y), unit);
+        
         StartCoroutine(unit.Move(tilesToDestination));
     }
 
@@ -41,26 +44,5 @@ public class Tile : MonoBehaviour
         //check if color is valid for the player
 
         return true;
-    }
-
-    /*private void OnMouseEnter()
-    {
-        Unit unit = Board.instance.selectedUnit;
-
-        List<Tile> path = Board.instance.pathFinder.GetPath(new Vector2(unit.occupiedTile.x, unit.occupiedTile.y), new Vector2(x, y));
-        foreach(Tile tile in path)
-        {
-            tile.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y - 0.1f, tile.transform.position.z);
-        }
-    }*/
-
-    /*private void OnMouseExit()
-    {
-        foreach (Tile tile in Board.instance.tiles)
-        {
-            tile.transform.position = new Vector3(tile.transform.position.x, 0, tile.transform.position.z);
-        }
-    }*/
-
-    
+    }    
 }
