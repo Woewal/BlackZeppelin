@@ -7,11 +7,9 @@ public class Board : MonoBehaviour
 
     public Unit selectedUnit;
 
-    public AStar pathFinder;
+    public PathFinder pathFinder;
 
     public Tile[,] tiles;
-
-    public Material tileSelectedMaterial;
 
     private void Start()
     {
@@ -21,7 +19,7 @@ public class Board : MonoBehaviour
 
     public void Initiate()
     {
-        pathFinder = new AStar(tiles);
+        pathFinder = new PathFinder(tiles);
         selectedUnit = Instantiate(selectedUnit, transform);
         selectedUnit.transform.position = tiles[0, 0].transform.position;
         selectedUnit.occupiedTile = tiles[0, 0];

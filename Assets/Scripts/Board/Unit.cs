@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour
 {
     public Tile occupiedTile;
 
-    public enum Color { Red, Blue, Green };
+    public enum Color { Blank, Red, Blue, Green };
 
     public Color color = Color.Red;
 

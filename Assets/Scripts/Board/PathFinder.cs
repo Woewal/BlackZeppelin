@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class AStar
+public class PathFinder
 {
     Tile[,] tiles;
     List<Tile> openTiles;
     List<Tile> closedTiles;
 
-    public AStar(Tile[,] boardTiles)
+    public PathFinder(Tile[,] boardTiles)
     {
         tiles = boardTiles;
     }

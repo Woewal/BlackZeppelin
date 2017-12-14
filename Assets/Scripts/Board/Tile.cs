@@ -18,11 +18,18 @@ public class Tile : MonoBehaviour
     public int hCost = 0;
     public Tile parent;
 
+    public Unit.Color color = Unit.Color.Blank;
+
     public static float size = 1;
 
     public bool walkAble = true;
 
     public Unit occupyingUnit;
+
+    private void Start()
+    {
+        //color = Unit.Color.Blank;
+    }
 
     private void OnMouseDown()
     {
@@ -30,7 +37,15 @@ public class Tile : MonoBehaviour
 
         List<Tile> tilesToDestination = Board.instance.pathFinder.GetPath(new Vector2(unit.occupiedTile.x,unit.occupiedTile.y), new Vector2(x, y), unit);
         
-        StartCoroutine(unit.Move(tilesToDestination));
+        if(tilesToDestination != null)
+        {
+            StartCoroutine(unit.Move(tilesToDestination));
+        }
+        else
+        {
+            Debug.LogError("No path available");
+        }
+        
     }
 
     public bool CheckWalkAble(Unit unit)
@@ -42,22 +57,29 @@ public class Tile : MonoBehaviour
         }
 
         //check if color is valid for the player
+        if (unit.color != color && color != Unit.Color.Blank)
+        {
+            return false;
+        }
 
         return true;
     }
 
-    public void ChangeColor(Unit.Color color)
+    public void ChangeColor(Unit.Color targetColor)
     {
         Material tileMaterial = GetComponentInChildren<Renderer>().material;
-        switch (color)
+        switch (targetColor)
         {
             case Unit.Color.Blue:
+                color = Unit.Color.Blue;
                 tileMaterial.color = Color.blue;
                 break;
             case Unit.Color.Red:
+                color = Unit.Color.Red;
                 tileMaterial.color = Color.red;
                 break;
             case Unit.Color.Green:
+                color = Unit.Color.Green;
                 tileMaterial.color = Color.green;
                 break;
         }
