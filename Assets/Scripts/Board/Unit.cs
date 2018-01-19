@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour
     [SerializeField]
     float movementDuration = 0.5f;
 
-    public IEnumerator Move(List<Tile> tileMovements)
+    IEnumerator Move(List<Tile> tileMovements)
     {
         Tile currentTile;
 
@@ -41,7 +41,7 @@ public class Unit : MonoBehaviour
             
     }
 
-    public IEnumerator MoveTile(Tile tileA, Tile tileB)
+    IEnumerator MoveTile(Tile tileA, Tile tileB)
     {
         float currentTime = 0;
 
@@ -53,5 +53,19 @@ public class Unit : MonoBehaviour
         }
 
         tileB.ChangeColor(color);
+    }
+
+    public void MoveToTile(Tile destinationTile)
+    {
+        List<Tile> tilesToDestination = Board.instance.pathFinder.GetPath(new Vector2(occupiedTile.x, occupiedTile.y), new Vector2(destinationTile.x, destinationTile.y), this);
+
+        if (tilesToDestination != null)
+        {
+            StartCoroutine(Move(tilesToDestination));
+        }
+        else
+        {
+            Debug.LogError("No path available");
+        }
     }
 }

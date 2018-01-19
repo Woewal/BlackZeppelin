@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class PlayerBoardInformation
 {
-    public List<Unit> units;
-    public List<Unit> availableUnits;
+    public List<Unit> units = new List<Unit>();
+    public List<Unit> availableUnits = new List<Unit>();
 
     public void SetAvailableUnits()
     {

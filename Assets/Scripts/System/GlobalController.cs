@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameController : MonoBehaviour
+public class GlobalController : MonoBehaviour
 {
-    static public GameController instance;
-
-    public List<Player> players;
+    static public GlobalController instance;
 
     private void Awake()
     {
@@ -18,6 +16,8 @@ public class GameController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        DontDestroyOnLoad(this);
        
     }
 }

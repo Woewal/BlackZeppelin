@@ -33,19 +33,10 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Unit unit = Board.instance.selectedUnit;
 
-        List<Tile> tilesToDestination = Board.instance.pathFinder.GetPath(new Vector2(unit.occupiedTile.x,unit.occupiedTile.y), new Vector2(x, y), unit);
-        
-        if(tilesToDestination != null)
-        {
-            StartCoroutine(unit.Move(tilesToDestination));
-        }
-        else
-        {
-            Debug.LogError("No path available");
-        }
-        
+        /**/
+
+        GameController.instance.roundController.ClickTile(this);
     }
 
     public bool CheckWalkAble(Unit unit)
