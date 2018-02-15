@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Unit;
 
 public class Tile : MonoBehaviour
 {
-    public int x;
-    public int y;
+    [HideInInspector] public int x;
+    [HideInInspector] public int y;
 
+    [SerializeField]
+    GameObject highlightParticle;
+    [SerializeField]
+    GameObject traversableParticle;
+
+    [HideInInspector]
     public int FStop
     {
         get
@@ -14,9 +21,9 @@ public class Tile : MonoBehaviour
             return gCost + hCost;
         }
     }
-    public int gCost = 0;
-    public int hCost = 0;
-    public Tile parent;
+    [HideInInspector] public int gCost = 0;
+    [HideInInspector] public int hCost = 0;
+    [HideInInspector] public Tile parent;
 
     public Unit.Color color = Unit.Color.Blank;
 
@@ -35,8 +42,6 @@ public class Tile : MonoBehaviour
     {
 
         /**/
-
-        GameController.instance.roundController.ClickTile(this);
     }
 
     public bool CheckWalkAble(Unit unit)
@@ -74,5 +79,28 @@ public class Tile : MonoBehaviour
                 tileMaterial.color = Color.green;
                 break;
         }
+    }
+
+    public void HighLight()
+    {
+        UnhighlightTraversable();
+        highlightParticle.SetActive(true);
+    }
+
+    public void UnHighLight(bool shouldHighlightTraversable)
+    {
+        highlightParticle.SetActive(false);
+        if (shouldHighlightTraversable)
+            HighlightTraversable();
+    }
+
+    public void HighlightTraversable()
+    {
+        traversableParticle.SetActive(true);
+    }
+
+    public void UnhighlightTraversable()
+    {
+        traversableParticle.SetActive(false);
     }
 }

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Game.Unit;
 
-public class Board : MonoBehaviour
+public class BoardController : MonoBehaviour
 {
-    public static Board instance;
+    public static BoardController instance;
 
     public PathFinder pathFinder;
 
@@ -21,11 +22,15 @@ public class Board : MonoBehaviour
     {
         pathFinder = new PathFinder(tiles);
         SpawnUnits();
+
+        
     }
 
     void SpawnUnits()
     {
         var players = GameController.instance.players;
+
+        GameController.instance.boardController = this;
 
         int h = 0;
 

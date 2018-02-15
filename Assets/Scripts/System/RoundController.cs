@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Unit;
 
 public class RoundController : MonoBehaviour
 {
-    enum Phase { Movement, Attack }
-
     GameController gameController;
     GlobalController globalController;
 
-    Player currentPlayer;
-    Unit selectedUnit;
+    [HideInInspector] public Player currentPlayer;
+    [HideInInspector] public Unit currentUnit;
     int playerTurnIndex;
-
-    Phase unitPhase;
 
     public void Initiate()
     {
@@ -28,24 +25,13 @@ public class RoundController : MonoBehaviour
     {
         currentPlayer = GameController.instance.players[playerNumber];
         currentPlayer.boardInformation.SetAvailableUnits();
-        selectedUnit = currentPlayer.boardInformation.availableUnits[0];
+        currentUnit = currentPlayer.boardInformation.availableUnits[0];
+        GameController.instance.cameraController.target = currentUnit.gameObject;
+        GameController.instance.movementController.Enable();
     }
 
-    public void ClickTile(Tile tile)
+    public void NextTurn()
     {
-        if(unitPhase == Phase.Movement)
-        {
-            MoveToTile(tile);
-        }
-        else if (unitPhase == Phase.Attack)
-        {
-            Attack(tile);
-        }
-    }
-
-    void MoveToTile(Tile tile)
-    {
-        selectedUnit.MoveToTile(tile);
         playerTurnIndex++;
         if (playerTurnIndex >= GameController.instance.players.Count)
         {

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-    public RoundController roundController;
+    [HideInInspector] public RoundController roundController;
+    [HideInInspector] public CameraController cameraController;
+    [HideInInspector] public MovementController movementController;
+    [HideInInspector] public BoardController boardController;
     public static GameController instance;
 
     public List<Player> players = new List<Player>();
@@ -13,6 +16,7 @@ public class GameController : MonoBehaviour {
     {
         instance = this;
         roundController = GetComponent<RoundController>();
+        movementController = GetComponent<MovementController>();
 
         for (int i = 0; i < 3; i++)
         {

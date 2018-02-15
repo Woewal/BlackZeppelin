@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardGenerator : MonoBehaviour {
-    Board board;
+    BoardController board;
 
     [SerializeField]
     int boardWidth;
@@ -24,7 +24,7 @@ public class BoardGenerator : MonoBehaviour {
 
     void GenerateBoard()
     {
-        board = gameObject.GetComponent<Board>();
+        board = gameObject.GetComponent<BoardController>();
         
         board.tiles = new Tile[boardWidth, boardHeight];
 
