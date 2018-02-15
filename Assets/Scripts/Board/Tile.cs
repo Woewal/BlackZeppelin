@@ -9,9 +9,9 @@ public class Tile : MonoBehaviour
     [HideInInspector] public int y;
 
     [SerializeField]
-    GameObject highlightParticle;
+    GameObject highlightPrefab;
     [SerializeField]
-    GameObject traversableParticle;
+    GameObject traversablePrefab;
 
     [HideInInspector]
     public int FStop
@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour
 
     public bool walkAble = true;
 
-    public Unit occupyingUnit;
+    [HideInInspector] public Unit occupyingUnit;
 
     private void Start()
     {
@@ -46,6 +46,11 @@ public class Tile : MonoBehaviour
 
     public bool CheckWalkAble(Unit unit)
     {
+        if(occupyingUnit != null)
+        {
+            return false;
+        }
+
         //check if tile is wall
         if (!walkAble)
         {
@@ -84,23 +89,23 @@ public class Tile : MonoBehaviour
     public void HighLight()
     {
         UnhighlightTraversable();
-        highlightParticle.SetActive(true);
+        highlightPrefab.SetActive(true);
     }
 
     public void UnHighLight(bool shouldHighlightTraversable)
     {
-        highlightParticle.SetActive(false);
+        highlightPrefab.SetActive(false);
         if (shouldHighlightTraversable)
             HighlightTraversable();
     }
 
     public void HighlightTraversable()
     {
-        traversableParticle.SetActive(true);
+        traversablePrefab.SetActive(true);
     }
 
     public void UnhighlightTraversable()
     {
-        traversableParticle.SetActive(false);
+        traversablePrefab.SetActive(false);
     }
 }

@@ -28,7 +28,7 @@ public class MovementController : MonoBehaviour
 
     public void Enable()
     {
-        unit = gameController.roundController.currentUnit;
+        unit = gameController.roundController.CurrentUnit;
         CheckTiles();
         SelectTile(unit.occupiedTile);
         enabled = true;
@@ -72,8 +72,8 @@ public class MovementController : MonoBehaviour
             if (
                 unit.occupiedTile.x + direction.x < 0 ||
                 unit.occupiedTile.y + direction.y < 0 ||
-                unit.occupiedTile.x + direction.x > tiles.GetLength(0) ||
-                unit.occupiedTile.y + direction.y > tiles.GetLength(1)
+                unit.occupiedTile.x + direction.x >= tiles.GetLength(0) ||
+                unit.occupiedTile.y + direction.y >= tiles.GetLength(1)
             )
             {
                 continue;
@@ -93,12 +93,12 @@ public class MovementController : MonoBehaviour
 
     void Select()
     {
-        if (!traversableTiles.Contains(selectedTile))
+        if (!traversableTiles.Contains(selectedTile) || !selectedTile.CheckWalkAble(unit))
             return;
 
-        unit.MoveToTile(selectedTile);
+        StartCoroutine(MoveCharacter(selectedTile));
         Disable();
-        gameController.roundController.NextTurn();
+        
     }
 
     void MoveCursor()
@@ -129,8 +129,8 @@ public class MovementController : MonoBehaviour
         if (
             selectedTile.x + (int)direction.x < 0 ||
             selectedTile.y + (int)direction.y < 0 ||
-            selectedTile.x + (int)direction.x > gameController.boardController.tiles.GetLength(0) ||
-            selectedTile.y + (int)direction.y > gameController.boardController.tiles.GetLength(1)
+            selectedTile.x + (int)direction.x >= gameController.boardController.tiles.GetLength(0) ||
+            selectedTile.y + (int)direction.y >= gameController.boardController.tiles.GetLength(1)
         )
         {
             return;
@@ -138,11 +138,15 @@ public class MovementController : MonoBehaviour
 
         Tile tile = gameController.boardController.tiles[selectedTile.x + (int)direction.x, selectedTile.y + (int)direction.y];
 
-        if (!tile.CheckWalkAble(unit))
-        {
-            return;
-        }
-
         SelectTile(tile);
+    }
+
+    IEnumerator MoveCharacter(Tile destinationTile)
+    {
+        yield return StartCoroutine(unit.MoveToTile(destinationTile));
+
+        yield return new WaitForSeconds(0.5f);
+
+        gameController.roundController.NextUnit();
     }
 }

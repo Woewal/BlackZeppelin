@@ -59,13 +59,13 @@ namespace Game.Unit
             tileB.ChangeColor(color);
         }
 
-        public void MoveToTile(Tile destinationTile)
+        public IEnumerator MoveToTile(Tile destinationTile)
         {
             List<Tile> tilesToDestination = BoardController.instance.pathFinder.GetPath(new Vector2(occupiedTile.x, occupiedTile.y), new Vector2(destinationTile.x, destinationTile.y), this);
 
             if (tilesToDestination != null)
             {
-                StartCoroutine(Move(tilesToDestination));
+                yield return StartCoroutine(Move(tilesToDestination));
             }
             else
             {

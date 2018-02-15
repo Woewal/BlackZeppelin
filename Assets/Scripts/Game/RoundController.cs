@@ -8,9 +8,22 @@ public class RoundController : MonoBehaviour
     GameController gameController;
     GlobalController globalController;
 
-    [HideInInspector] public Player currentPlayer;
-    [HideInInspector] public Unit currentUnit;
+    [HideInInspector] public Player CurrentPlayer
+    {
+        get
+        {
+            return gameController.players[playerTurnIndex];
+        }
+    }
+    [HideInInspector] public Unit CurrentUnit
+    {
+        get
+        {
+            return CurrentPlayer.boardInformation.units[unitTurnIndex];
+        }
+    }
     int playerTurnIndex;
+    int unitTurnIndex;
 
     public void Initiate()
     {
@@ -23,10 +36,9 @@ public class RoundController : MonoBehaviour
 
     public void SetPlayerTurn(int playerNumber)
     {
-        currentPlayer = GameController.instance.players[playerNumber];
-        currentPlayer.boardInformation.SetAvailableUnits();
-        currentUnit = currentPlayer.boardInformation.availableUnits[0];
-        GameController.instance.cameraController.target = currentUnit.gameObject;
+        unitTurnIndex = 0;
+        CurrentPlayer.boardInformation.SetAvailableUnits();
+        GameController.instance.cameraController.target = CurrentUnit.gameObject;
         GameController.instance.movementController.Enable();
     }
 
@@ -40,8 +52,16 @@ public class RoundController : MonoBehaviour
         SetPlayerTurn(playerTurnIndex);
     }
 
-    void Attack(Tile tile)
+    public void NextUnit()
     {
+        unitTurnIndex++;
 
+        if (unitTurnIndex >= CurrentPlayer.boardInformation.units.Count)
+        {
+            NextTurn();
+        }
+
+        GameController.instance.cameraController.target = CurrentUnit.gameObject;
+        GameController.instance.movementController.Enable();
     }
 }
