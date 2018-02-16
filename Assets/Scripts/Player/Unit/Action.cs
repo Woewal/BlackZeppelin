@@ -9,12 +9,7 @@ namespace Game.Unit
         protected ActionController actionController;
 
         public bool needsInput;
-
-        private void Awake()
-        {
-            actionController = GameController.instance.actionController;
-        }
-
+        
         public void StartAction()
         {
             if(needsInput)
