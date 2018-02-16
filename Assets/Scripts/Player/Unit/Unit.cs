@@ -12,13 +12,14 @@ namespace Game.Unit
 
         public Color color = Color.Red;
 
-        public Movement movement;
-        public Action action;
+        public List<Action> actions = new List<Action>();
 
         float movementDuration = 0.1f;
 
         IEnumerator Move(List<Tile> tileMovements)
         {
+            occupiedTile.occupyingUnit = null;
+
             Tile currentTile;
 
             int i = 0;
@@ -42,6 +43,7 @@ namespace Game.Unit
             }
 
             occupiedTile = tileMovements[tileMovements.Count - 1];
+            occupiedTile.occupyingUnit = this;
 
         }
 
@@ -71,6 +73,11 @@ namespace Game.Unit
             {
                 Debug.LogError("No path available");
             }
+        }
+
+        public void KillUnit()
+        {
+            Destroy(this.gameObject);
         }
     }
 }

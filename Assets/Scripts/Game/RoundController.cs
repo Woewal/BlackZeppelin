@@ -19,6 +19,14 @@ public class RoundController : MonoBehaviour
     {
         get
         {
+            var unit = CurrentPlayer.boardInformation.units[unitTurnIndex];
+
+            if (unit == null)
+            {
+                CurrentPlayer.boardInformation.units.Remove(unit);
+                return null;
+            }
+
             return CurrentPlayer.boardInformation.units[unitTurnIndex];
         }
     }
@@ -37,9 +45,8 @@ public class RoundController : MonoBehaviour
     public void SetPlayerTurn(int playerNumber)
     {
         unitTurnIndex = 0;
-        CurrentPlayer.boardInformation.SetAvailableUnits();
         GameController.instance.cameraController.target = CurrentUnit.gameObject;
-        GameController.instance.movementController.Enable();
+        GameController.instance.actionController.StartUnitTurn();
     }
 
     public void NextTurn()
@@ -61,7 +68,13 @@ public class RoundController : MonoBehaviour
             NextTurn();
         }
 
+        if(CurrentUnit == null)
+        {
+            unitTurnIndex--;
+            NextUnit();
+        }
+
         GameController.instance.cameraController.target = CurrentUnit.gameObject;
-        GameController.instance.movementController.Enable();
+        GameController.instance.actionController.StartUnitTurn();
     }
 }

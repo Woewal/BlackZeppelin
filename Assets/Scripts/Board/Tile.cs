@@ -40,8 +40,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-        /**/
+        Debug.Log(occupyingUnit);
     }
 
     public bool CheckWalkAble(Unit unit)
@@ -83,6 +82,14 @@ public class Tile : MonoBehaviour
                 color = Unit.Color.Green;
                 tileMaterial.color = Color.green;
                 break;
+        }
+
+        if(occupyingUnit != null)
+        {
+            if (occupyingUnit.color != targetColor)
+            {
+                occupyingUnit.KillUnit();
+            }
         }
     }
 

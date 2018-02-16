@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.Unit;
 
-public class MovementController : MonoBehaviour
+public class ActionController : MonoBehaviour
 {
-    Tile selectedTile;
+    public Tile selectedTile;
 
     GameController gameController;
-    Unit unit;
+    public Unit currentUnit;
+    public Action CurrentAction
+    {
+        get
+        {
+            return currentUnit.actions[currentActionIndex];
+        }
+    }
+    int currentActionIndex = 0;
 
-    List<Tile> traversableTiles = new List<Tile>();
+    public List<Tile> traversableTiles = new List<Tile>();
 
     void Start()
     {
         gameController = GameController.instance;
-        Disable();
     }
 
     private void Update()
@@ -26,12 +33,14 @@ public class MovementController : MonoBehaviour
             Select();
     }
 
-    public void Enable()
+    public void StartUnitTurn()
     {
-        unit = gameController.roundController.CurrentUnit;
-        CheckTiles();
-        SelectTile(unit.occupiedTile);
-        enabled = true;
+        currentUnit = gameController.roundController.CurrentUnit;
+        currentActionIndex = 0;
+
+        if(CurrentAction.needsInput)
+            SelectTile(currentUnit.occupiedTile);
+        CurrentAction.StartAction();
     }
 
     void SelectTile(Tile tile)
@@ -51,7 +60,7 @@ public class MovementController : MonoBehaviour
         selectedTile.HighLight();
     }
 
-    public void Disable()
+    public void Clear()
     {
         foreach (var tile in traversableTiles)
         {
@@ -59,46 +68,30 @@ public class MovementController : MonoBehaviour
             tile.UnhighlightTraversable();
         }
         traversableTiles.Clear();
-        enabled = false;
-    }
-
-    void CheckTiles()
-    {
-        Tile[,] tiles = gameController.boardController.tiles;
-
-        foreach (Movement.Direction direction in unit.movement.directions)
-        {
-
-            if (
-                unit.occupiedTile.x + direction.x < 0 ||
-                unit.occupiedTile.y + direction.y < 0 ||
-                unit.occupiedTile.x + direction.x >= tiles.GetLength(0) ||
-                unit.occupiedTile.y + direction.y >= tiles.GetLength(1)
-            )
-            {
-                continue;
-            }
-
-            Tile tile = tiles[unit.occupiedTile.x + direction.x, unit.occupiedTile.y + direction.y];
-
-            if (!tile.CheckWalkAble(unit))
-            {
-                continue;
-            }
-
-            tile.HighlightTraversable();
-            traversableTiles.Add(tile);
-        }
     }
 
     void Select()
     {
-        if (!traversableTiles.Contains(selectedTile) || !selectedTile.CheckWalkAble(unit))
-            return;
+        if(CurrentAction.CanExecute())
+        {
+            StartCoroutine(ExecuteAction(CurrentAction.InvokeAction()));
+        }
+    }
 
-        StartCoroutine(MoveCharacter(selectedTile));
-        Disable();
-        
+    void NextAction()
+    {
+        currentActionIndex++;
+
+        if (currentActionIndex >= currentUnit.actions.Count)
+        {
+            gameController.roundController.NextUnit();
+        }
+        else
+        {
+            if (CurrentAction.needsInput)
+                SelectTile(currentUnit.occupiedTile);
+            CurrentAction.StartAction();
+        }
     }
 
     void MoveCursor()
@@ -141,12 +134,12 @@ public class MovementController : MonoBehaviour
         SelectTile(tile);
     }
 
-    IEnumerator MoveCharacter(Tile destinationTile)
+    public IEnumerator ExecuteAction(IEnumerator action)
     {
-        yield return StartCoroutine(unit.MoveToTile(destinationTile));
+        Clear();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(action);
 
-        gameController.roundController.NextUnit();
+        NextAction();
     }
 }

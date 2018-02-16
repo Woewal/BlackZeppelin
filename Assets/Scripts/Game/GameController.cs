@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour {
 
     [HideInInspector] public RoundController roundController;
     [HideInInspector] public CameraController cameraController;
-    [HideInInspector] public MovementController movementController;
+    [HideInInspector] public ActionController actionController;
     [HideInInspector] public BoardController boardController;
     public static GameController instance;
 
@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour {
     {
         instance = this;
         roundController = GetComponent<RoundController>();
-        movementController = GetComponent<MovementController>();
+        actionController = GetComponent<ActionController>();
 
         for (int i = 0; i < 4; i++)
         {

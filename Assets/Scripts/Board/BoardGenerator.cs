@@ -97,7 +97,10 @@ public class BoardGenerator : MonoBehaviour
 
                 newUnit.transform.position = targetTile.transform.position;
                 newUnit.occupiedTile = targetTile;
+                targetTile.occupyingUnit = newUnit;
                 GameController.instance.players[i].boardInformation.units.Add(newUnit);
+
+                targetTile.ChangeColor(newUnit.color);
             }
         }
 

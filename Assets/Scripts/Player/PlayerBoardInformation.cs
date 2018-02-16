@@ -6,14 +6,4 @@ using Game.Unit;
 public class PlayerBoardInformation
 {
     public List<Unit> units = new List<Unit>();
-    public List<Unit> availableUnits = new List<Unit>();
-
-    public void SetAvailableUnits()
-    {
-        foreach (Unit unit in units)
-        {
-            //check alive
-            availableUnits.Add(unit);
-        }
-    }
 }
