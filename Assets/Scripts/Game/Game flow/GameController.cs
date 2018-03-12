@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
     [HideInInspector] public CameraController cameraController;
     [HideInInspector] public ActionController actionController;
     [HideInInspector] public BoardController boardController;
+    [HideInInspector] public CursorInput cursor;
     public static GameController instance;
 
     public List<Player> players = new List<Player>();
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour {
         instance = this;
         roundController = GetComponent<RoundController>();
         actionController = GetComponent<ActionController>();
+        cursor = GetComponent<CursorInput>();
 
         for (int i = 0; i < 4; i++)
         {

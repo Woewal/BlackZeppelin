@@ -23,11 +23,13 @@ namespace Game.Unit
             GetDirections();
         }
 
-        void GetDirections()
+        List<Tile> GetDirections()
         {
-            Tile[,] tiles = GameController.instance.boardController.tiles;
+            Tile[,] boardTiles = GameController.instance.boardController.tiles;
 
             var unit = actionController.currentUnit;
+
+            List<Tile> tiles = new List<Tile>();
 
             foreach (Direction direction in directions)
             {
@@ -35,37 +37,40 @@ namespace Game.Unit
                 if (
                     unit.occupiedTile.x + direction.x < 0 ||
                     unit.occupiedTile.y + direction.y < 0 ||
-                    unit.occupiedTile.x + direction.x >= tiles.GetLength(0) ||
-                    unit.occupiedTile.y + direction.y >= tiles.GetLength(1)
+                    unit.occupiedTile.x + direction.x >= boardTiles.GetLength(0) ||
+                    unit.occupiedTile.y + direction.y >= boardTiles.GetLength(1)
                 )
                 {
                     continue;
                 }
 
-                Tile tile = tiles[unit.occupiedTile.x + direction.x, unit.occupiedTile.y + direction.y];
+                Tile tile = boardTiles[unit.occupiedTile.x + direction.x, unit.occupiedTile.y + direction.y];
 
                 if (!tile.CheckWalkAble(unit))
                 {
                     continue;
                 }
 
-                tile.HighlightTraversable();
-                actionController.traversableTiles.Add(tile);
+                tile.HighLight();
+                tiles.Add(tile);
             }
+
+            return tiles;
         }
 
         public override bool CanExecute()
         {
-            if (actionController.traversableTiles.Contains(actionController.selectedTile))
+            /*if (actionController.traversableTiles.Contains(actionController.selectedTile))
             {
                 return true;
             }
-            return false;
+            return false;*/
+            return true;
         }
 
         public override IEnumerator InvokeAction()
         {
-            yield return actionController.StartCoroutine(actionController.currentUnit.MoveToTile(actionController.selectedTile));
+            yield return actionController.StartCoroutine(actionController.currentUnit.MoveToTile(actionController.GetComponent<BoardSelection>().selectedTile));
             yield return new WaitForSeconds(0.5f);
         }
     }

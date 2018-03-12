@@ -93,25 +93,22 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void HighLight()
+    public void Select()
     {
-        UnhighlightTraversable();
         highlightPrefab.SetActive(true);
     }
 
-    public void UnHighLight(bool shouldHighlightTraversable)
+    public void UnSelect()
     {
         highlightPrefab.SetActive(false);
-        if (shouldHighlightTraversable)
-            HighlightTraversable();
     }
 
-    public void HighlightTraversable()
+    public void HighLight()
     {
         traversablePrefab.SetActive(true);
     }
 
-    public void UnhighlightTraversable()
+    public void UnHighLight()
     {
         traversablePrefab.SetActive(false);
     }

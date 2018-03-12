@@ -6,4 +6,9 @@ using Game.Unit;
 public class PlayerBoardInformation
 {
     public List<Unit> units = new List<Unit>();
+
+    public void RemoveEmpty()
+    {
+        units.RemoveAll(item => item == null);
+    }
 }
