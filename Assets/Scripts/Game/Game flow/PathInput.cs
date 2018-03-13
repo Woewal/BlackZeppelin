@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class CursorInput : MonoBehaviour
+public class PathInput : MonoBehaviour
 {
     RoundController roundController;
     ActionController actionController;
@@ -18,71 +19,59 @@ public class CursorInput : MonoBehaviour
 
     private void Update()
     {
-        MoveCursor();
+        ChangePath();
 
         if (Input.GetButtonDown("Submit"))
             Select();
     }
 
-    void MoveCursor()
+    void ChangePath()
     {
-        Vector2 direction = Vector2.zero;
+        int pathIndex;
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            direction = new Vector2(-1, 0);
+            pathIndex = 0;
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            direction = new Vector2(0, 1);
+            pathIndex = 1;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            direction = new Vector2(1, 0);
+            pathIndex = 2;
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            direction = new Vector2(0, -1);
+            pathIndex = 3;
         }
         else
         {
             return;
         }
 
-        if (
-            boardSelection.selectedTile.x + (int)direction.x < 0 ||
-            boardSelection.selectedTile.y + (int)direction.y < 0 ||
-            boardSelection.selectedTile.x + (int)direction.x >= gameController.boardController.tiles.GetLength(0) ||
-            boardSelection.selectedTile.y + (int)direction.y >= gameController.boardController.tiles.GetLength(1)
-        )
-        {
-            return;
-        }
-
-        Tile tile = gameController.boardController.tiles[boardSelection.selectedTile.x + (int)direction.x, boardSelection.selectedTile.y + (int)direction.y];
-
-        boardSelection.SelectTile(tile);
+        boardSelection.SelectPath(boardSelection.availablePaths[pathIndex]);
     }
 
     void Select()
     {
-        if(actionController.CanExecute())
+        if (actionController.CanExecute())
         {
             actionController.Execute();
             Disable();
         }
     }
 
-    public void Enable(Tile beginTile)
+    public void Enable(List<Tile> path)
     {
-        if(boardSelection == null)
+        if (boardSelection == null)
         {
             Start();
         }
 
         this.enabled = true;
 
-        boardSelection.SelectTile(beginTile);
+        boardSelection.SelectPath(path);
     }
 
     public void Disable()

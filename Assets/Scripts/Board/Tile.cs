@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Game.Unit;
+using Game.Obstacles;
 
 public class Tile : MonoBehaviour
 {
@@ -25,13 +25,13 @@ public class Tile : MonoBehaviour
     [HideInInspector] public int hCost = 0;
     [HideInInspector] public Tile parent;
 
-    public Unit.Color color = Unit.Color.Blank;
+    public Obstacle.Color color = Obstacle.Color.Blank;
 
     public static float size = 1;
 
     public bool walkAble = true;
 
-    [HideInInspector] public Unit occupyingUnit;
+    [HideInInspector] public Obstacle occupyingObstacle;
 
     private void Start()
     {
@@ -40,12 +40,12 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(occupyingUnit);
+        Debug.Log(occupyingObstacle);
     }
 
     public bool CheckWalkAble(Unit unit)
     {
-        if(occupyingUnit != null)
+        if(occupyingObstacle != null)
         {
             return false;
         }
@@ -72,23 +72,23 @@ public class Tile : MonoBehaviour
         {
             case Unit.Color.Blue:
                 color = Unit.Color.Blue;
-                tileMaterial.color = Color.blue;
+                tileMaterial.color = UnityEngine.Color.blue;
                 break;
             case Unit.Color.Red:
                 color = Unit.Color.Red;
-                tileMaterial.color = Color.red;
+                tileMaterial.color = UnityEngine.Color.red;
                 break;
             case Unit.Color.Green:
                 color = Unit.Color.Green;
-                tileMaterial.color = Color.green;
+                tileMaterial.color = UnityEngine.Color.green;
                 break;
         }
 
-        if(occupyingUnit != null)
+        if(occupyingObstacle != null)
         {
-            if (occupyingUnit.color != targetColor)
+            if(occupyingObstacle.color != targetColor)
             {
-                occupyingUnit.KillUnit();
+                occupyingObstacle.DestroyObstacle();
             }
         }
     }

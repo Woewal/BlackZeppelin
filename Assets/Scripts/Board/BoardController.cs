@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Game.Unit;
+using Game.Obstacles;
 
 public class BoardController : MonoBehaviour
 {

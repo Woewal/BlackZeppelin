@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Game.Unit;
+using Game.Obstacles;
 using System.Linq;
 public class UnitSelectInput : MonoBehaviour
 {

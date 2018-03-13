@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Game.Unit;
+using Game.Obstacles;
+using Game.Actions;
 
 public class ActionController : MonoBehaviour
 {
     BoardSelection boardSelection;
     CursorInput cursorInput;
+    PathInput pathInput;
 
     GameController gameController;
     [HideInInspector] public Unit currentUnit;
@@ -24,6 +26,7 @@ public class ActionController : MonoBehaviour
         gameController = GameController.instance;
         boardSelection = GetComponent<BoardSelection>();
         cursorInput = GetComponent<CursorInput>();
+        pathInput = GetComponent<PathInput>();
     }
 
     public void StartUnitTurn()
@@ -31,11 +34,7 @@ public class ActionController : MonoBehaviour
         currentUnit = gameController.roundController.currentUnit;
         currentActionIndex = 0;
 
-        if (CurrentAction.needsInput)
-        {
-            cursorInput.Enable(currentUnit.occupiedTile);
-            //boardSelection.SetSelectable(CurrentAction)
-        }
+        CheckInput();
             
         CurrentAction.StartAction();
 
@@ -55,10 +54,7 @@ public class ActionController : MonoBehaviour
 
     public void Execute()
     {
-        if (CurrentAction.CanExecute())
-        {
-            StartCoroutine(ExecuteAction(CurrentAction.InvokeAction()));
-        }
+        StartCoroutine(ExecuteAction(CurrentAction.InvokeAction()));
     }
 
     public void NextAction()
@@ -71,9 +67,24 @@ public class ActionController : MonoBehaviour
         }
         else
         {
-            if (CurrentAction.needsInput)
-                cursorInput.Enable(currentUnit.occupiedTile);
+            CheckInput();
             CurrentAction.StartAction();
+        }
+    }
+
+    private void CheckInput()
+    {
+        if (CurrentAction.inputType == Action.InputType.Cursor)
+        {
+            cursorInput.Enable(currentUnit.occupiedTile);
+            boardSelection.SetSelectableTiles(CurrentAction.GetDirections());
+        }
+        else if (CurrentAction.inputType == Action.InputType.Path)
+        {
+            var paths = CurrentAction.GetPaths();
+
+            pathInput.Enable(paths[0]);
+            //boardSelection.SetSelectable;
         }
     }
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Unit;
+using Game.Obstacles;
 
 public class PathFinder
 {
@@ -28,8 +28,6 @@ public class PathFinder
 
         while (openTiles.Count > 0)
         {
-            //Debug.Log("blaat");
-
             Tile currentTile = openTiles[0];
             SetCurrentTile(currentTile);
 
@@ -66,6 +64,42 @@ public class PathFinder
 
         Debug.LogError("No path");
         return null;
+    }
+
+    public List<Tile> GetAllPaths(int steps, Unit unit)
+    {
+        List<Tile> openNodes = new List<Tile>();
+        List<Tile> closedNodes = new List<Tile>();
+
+        openNodes.Add(unit.occupiedTile);
+
+        for (int x = 0; x < steps + 1; x++)
+        {
+            List<Tile> nextNodes = new List<Tile>();
+
+            foreach(var tile in openNodes)
+            {
+                foreach(var neighbour in GetNeighbours(tile))
+                {
+                    if(!closedNodes.Contains(neighbour))
+                    {
+                        if(neighbour.CheckWalkAble(unit))
+                        {
+                            nextNodes.Add(neighbour);
+                        }
+                    }
+                }
+                closedNodes.Add(tile);
+            }
+            openNodes.Clear();
+            foreach(var node in nextNodes)
+            {
+                openNodes.Add(node);
+            }
+        }
+
+        closedNodes.Remove(unit.occupiedTile);
+        return closedNodes;
     }
 
     List<Tile> RetracePath(Tile startTile, Tile endTile)

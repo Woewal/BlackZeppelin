@@ -2,22 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Obstacles;
 
-namespace Game.Unit
+namespace Game.Actions
 {
     [CreateAssetMenu(fileName = "Splash", menuName = "Unit/Splash", order = 1)]
     class Splash : Action
     {
-        public List<Movement.Direction> directions;
+        public List<Action.Direction> directions;
 
         public override IEnumerator InvokeAction()
         {
             Unit unit = GameController.instance.actionController.currentUnit;
             Tile[,] tiles = GameController.instance.boardController.tiles;
 
-            foreach (Movement.Direction direction in directions)
+            foreach (Action.Direction direction in directions)
             {
-
                 if (
                     unit.occupiedTile.x + direction.x < 0 ||
                     unit.occupiedTile.y + direction.y < 0 ||

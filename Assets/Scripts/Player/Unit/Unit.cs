@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Actions;
 
-namespace Game.Unit
+namespace Game.Obstacles
 {
-    public class Unit : MonoBehaviour
+    public class Unit : Obstacle
     {
-        [HideInInspector] public Tile occupiedTile;
-
-        public enum Color { Blank, Red, Blue, Green };
-
-        public Color color = Color.Red;
-
         public List<Action> actions = new List<Action>();
 
         float movementDuration = 0.1f;
 
         IEnumerator Move(List<Tile> tileMovements)
         {
-            occupiedTile.occupyingUnit = null;
+            occupiedTile.occupyingObstacle = null;
 
             Tile currentTile;
 
@@ -43,7 +38,7 @@ namespace Game.Unit
             }
 
             occupiedTile = tileMovements[tileMovements.Count - 1];
-            occupiedTile.occupyingUnit = this;
+            occupiedTile.occupyingObstacle = this;
 
         }
 
@@ -75,8 +70,9 @@ namespace Game.Unit
             }
         }
 
-        public void KillUnit()
+        public override void DestroyObstacle()
         {
+            RemoveReferences();
             Destroy(this.gameObject);
         }
     }

@@ -2,17 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Game.Unit
+namespace Game.Actions
 {
     public abstract class Action : ScriptableObject
     {
         protected ActionController actionController;
-
-        public bool needsInput;
         
+        public enum InputType { None, Cursor, Path}
+
+        public InputType inputType = InputType.None;
+
         public void StartAction()
         {
-            if(needsInput)
+            if(inputType != InputType.None)
             {
                 SetupAction();
             }
@@ -23,16 +25,28 @@ namespace Game.Unit
             }
         }
 
+        public virtual List<Tile> GetDirections()
+        {
+            return null;
+        }
+
+        public virtual List<List<Tile>> GetPaths()
+        {
+            return null;
+        }
+
         protected virtual void SetupAction()
         {
         }
 
-        public virtual bool CanExecute()
-        {
-            return false;
-        }
-
         public abstract IEnumerator InvokeAction();
+
+        [System.Serializable]
+        public class Direction
+        {
+            public int x;
+            public int y;
+        }
     }
 }
 

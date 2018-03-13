@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Game.Unit;
+using Game.Obstacles;
 
 public class BoardGenerator : MonoBehaviour
 {
@@ -97,7 +97,7 @@ public class BoardGenerator : MonoBehaviour
 
                 newUnit.transform.position = targetTile.transform.position;
                 newUnit.occupiedTile = targetTile;
-                targetTile.occupyingUnit = newUnit;
+                targetTile.occupyingObstacle = newUnit;
                 GameController.instance.players[i].boardInformation.units.Add(newUnit);
 
                 targetTile.ChangeColor(newUnit.color);

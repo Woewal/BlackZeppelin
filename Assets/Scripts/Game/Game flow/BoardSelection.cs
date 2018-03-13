@@ -5,8 +5,10 @@ using System.Collections.Generic;
 public class BoardSelection : MonoBehaviour
 {
     [HideInInspector] public List<Tile> traversableTiles = new List<Tile>();
+    [HideInInspector] public List<List<Tile>> availablePaths = new List<List<Tile>>();
 
     [HideInInspector] public Tile selectedTile;
+    [HideInInspector] public List<Tile> selectedPath;
 
     public void Clear()
     {
@@ -14,17 +16,29 @@ public class BoardSelection : MonoBehaviour
         {
             tile.UnHighLight();
         }
+        selectedTile.UnSelect();
         traversableTiles.Clear();
-
-        Debug.Log("Clear");
     }
 
-    public void SetSelectable(List<Tile> tiles)
+    public void SetSelectableTiles(List<Tile> tiles)
     {
         foreach(var tile in tiles)
         {
             traversableTiles.Add(tile);
             tile.HighLight();
+        }
+    }
+
+    public void SetSelectablePaths(List<List<Tile>> paths)
+    {
+        foreach(var path in paths)
+        {
+            availablePaths.Add(path);
+
+            foreach (var tile in path)
+            {
+                tile.HighLight();
+            }
         }
     }
 
@@ -45,5 +59,24 @@ public class BoardSelection : MonoBehaviour
         }
         selectedTile = tile;
         selectedTile.Select();
+    }
+
+    public void SelectPath(List<Tile> path)
+    {
+        if(selectedPath == null)
+        {
+            foreach(var tile in selectedPath)
+            {
+                tile.UnSelect();
+                tile.UnHighLight();
+            }
+        }
+
+        selectedPath = path;
+
+        foreach(var tile in selectedPath)
+        {
+            tile.Select();
+        }
     }
 }

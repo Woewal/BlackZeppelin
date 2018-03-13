@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Game.Unit
+namespace Game.Actions
 {
     [CreateAssetMenu(fileName = "Teleport", menuName = "Unit/Teleport", order = 1)]
     public class Teleport : Action
@@ -12,17 +12,17 @@ namespace Game.Unit
             if (actionController == null)
                 actionController = GameController.instance.actionController;
 
-            int directions = GetDirections();
+            //int directions = GetDirections();
 
-            Debug.Log(directions);
+            //Debug.Log(directions);
 
-            if (directions == 0)
-            {
-                GameController.instance.actionController.NextAction();
-            }
+            //if (directions == 0)
+            //{
+                //GameController.instance.actionController.NextAction();
+            //}
         }
 
-        int GetDirections()
+        /*int GetDirections()
         {
             Tile[,] tiles = GameController.instance.boardController.tiles;
             var unit = actionController.currentUnit;
@@ -49,9 +49,9 @@ namespace Game.Unit
             closedTiles.Remove(unit.occupiedTile);
 
             return closedTiles.Count;
-        }
+        }*/
 
-        List<Tile> GetNeighbours(Tile tile, Unit.Color color)
+        List<Tile> GetNeighbours(Tile tile, Obstacle.Color color)
         {
             Vector2[] directions = new Vector2[] { new Vector2(0, -1), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1) };
 
@@ -86,16 +86,6 @@ namespace Game.Unit
             }
 
             return neighbours;
-        }
-
-        public override bool CanExecute()
-        {
-            /*if (actionController.traversableTiles.Contains(actionController.selectedTile))
-            {
-                return true;
-            }
-            return false;*/
-            return true;
         }
 
         public override IEnumerator InvokeAction()

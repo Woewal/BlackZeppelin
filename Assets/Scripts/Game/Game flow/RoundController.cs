@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Game.Unit;
+using Game.Obstacles;
 
 public class RoundController : MonoBehaviour
 {
@@ -16,20 +16,6 @@ public class RoundController : MonoBehaviour
             return gameController.players[playerTurnIndex];
         }
     }
-    //[HideInInspector] public Unit CurrentUnit
-    //{
-    //    get
-    //    {
-    //        var unit = CurrentPlayer.boardInformation.units[unitTurnIndex];
-
-    //        if (unit == null)
-    //        {
-    //            return CurrentPlayer.boardInformation.units[unitTurnIndex];
-    //        }
-
-    //        return CurrentPlayer.boardInformation.units[unitTurnIndex];
-    //    }
-    //}
     public Unit currentUnit;
 
     int playerTurnIndex;
@@ -48,7 +34,7 @@ public class RoundController : MonoBehaviour
     public void SetPlayerTurn(int playerNumber)
     {
         unitTurnIndex = 0;
-
+        CurrentPlayer.boardInformation.RemoveEmpty();
         unitSelectInput.Enable(CurrentPlayer.boardInformation.units);
     }
 
