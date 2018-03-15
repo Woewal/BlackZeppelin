@@ -83,8 +83,8 @@ public class ActionController : MonoBehaviour
         {
             var paths = CurrentAction.GetPaths();
 
+            boardSelection.SetSelectablePaths(paths);
             pathInput.Enable(paths[0]);
-            //boardSelection.SetSelectable;
         }
     }
 

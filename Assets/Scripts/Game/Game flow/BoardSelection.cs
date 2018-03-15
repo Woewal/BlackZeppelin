@@ -18,6 +18,20 @@ public class BoardSelection : MonoBehaviour
         }
         selectedTile.UnSelect();
         traversableTiles.Clear();
+
+        foreach(var path in availablePaths)
+        {
+            if (path != null)
+            {
+                foreach (var tile in path)
+                {
+                    tile.UnHighLight();
+                    tile.UnSelect();
+                }
+            }
+        }
+        selectedPath = null;
+        availablePaths.Clear();
     }
 
     public void SetSelectableTiles(List<Tile> tiles)
@@ -35,10 +49,13 @@ public class BoardSelection : MonoBehaviour
         {
             availablePaths.Add(path);
 
-            foreach (var tile in path)
+            if(path != null)
             {
-                tile.HighLight();
-            }
+                foreach (var tile in path)
+                {
+                    tile.HighLight();
+                }
+            }            
         }
     }
 
@@ -61,22 +78,24 @@ public class BoardSelection : MonoBehaviour
         selectedTile.Select();
     }
 
-    public void SelectPath(List<Tile> path)
+    public void SelectPath(int index)
     {
-        if(selectedPath == null)
+        if(selectedPath != null)
         {
             foreach(var tile in selectedPath)
             {
                 tile.UnSelect();
-                tile.UnHighLight();
             }
         }
 
-        selectedPath = path;
-
-        foreach(var tile in selectedPath)
+        if(availablePaths[index] != null)
         {
-            tile.Select();
+            selectedPath = availablePaths[index];
+
+            foreach (var tile in selectedPath)
+            {
+                tile.Select();
+            }
         }
     }
 }

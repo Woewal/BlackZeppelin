@@ -31,35 +31,32 @@ public class PathInput : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            pathIndex = 0;
+            pathIndex = 3;
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            pathIndex = 1;
+            pathIndex = 0;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            pathIndex = 2;
+            pathIndex = 1;
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            pathIndex = 3;
+            pathIndex = 2;
         }
         else
         {
             return;
         }
 
-        boardSelection.SelectPath(boardSelection.availablePaths[pathIndex]);
+        boardSelection.SelectPath(pathIndex);
     }
 
     void Select()
     {
-        if (actionController.CanExecute())
-        {
-            actionController.Execute();
-            Disable();
-        }
+        actionController.Execute();
+        Disable();
     }
 
     public void Enable(List<Tile> path)
@@ -71,7 +68,7 @@ public class PathInput : MonoBehaviour
 
         this.enabled = true;
 
-        boardSelection.SelectPath(path);
+        boardSelection.SelectPath(0);
     }
 
     public void Disable()

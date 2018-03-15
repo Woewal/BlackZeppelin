@@ -112,4 +112,18 @@ public class Tile : MonoBehaviour
     {
         traversablePrefab.SetActive(false);
     }
+
+    public static Tile GetTile(int row, int column)
+    {
+        var tiles = BoardController.instance.tiles;
+
+        if (row < 0 || column < 0 || row >= tiles.GetLength(0) || column >= tiles.GetLength(1))
+        {
+            return null;
+        }
+        else
+        {
+            return tiles[row, column];
+        }
+    }
 }

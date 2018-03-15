@@ -12,29 +12,54 @@ namespace Game.Actions
     {
         public List<Coordinate> relativeCoordinates;
 
-        public List<List<Tile>> directions;
-
-        public override List<Tile> GetDirections()
+        public override List<List<Tile>> GetPaths()
         {
-            var paths = Coordinate.GetPatternDirections(relativeCoordinates);
-            List<Coordinate> coordinates = new List<Coordinate>();
+            Unit unit = GameController.instance.actionController.currentUnit;
 
-            foreach(var path in paths)
+            var coordinatePaths = Coordinate.GetPatternDirections(relativeCoordinates);
+            var tilePaths = new List<List<Tile>>();
+
+            foreach(List<Coordinate> path in coordinatePaths)
             {
+                var tilePath = new List<Tile>();
+
                 foreach(var coordinate in path)
                 {
-                    coordinates.Add(coordinate);
+                    Tile tile = Tile.GetTile(coordinate.x + unit.occupiedTile.x, coordinate.y + unit.occupiedTile.y);
+
+                    tilePath.Add(tile);
+                }
+                
+                if(tilePath.Contains(null))
+                {
+                    tilePaths.Add(null);
+                }
+                else
+                {
+                    tilePaths.Add(tilePath);
                 }
             }
 
-            return TileHelper.GetRelativeTiles(GameController.instance.roundController.currentUnit.occupiedTile ,coordinates);
+            return tilePaths;
         }
 
         public override IEnumerator InvokeAction()
         {
-
+            ShootPath();
 
             yield return new WaitForSeconds(0.5f);
+        }
+
+        void ShootPath()
+        {
+            var path = GameController.instance.actionController.GetComponent<BoardSelection>().selectedPath;
+
+            var unit = GameController.instance.actionController.currentUnit;
+
+            foreach (var tile in path)
+            {
+                tile.ChangeColor(unit.color);
+            }
         }
     }
 }
