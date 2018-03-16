@@ -88,8 +88,8 @@ public class BoardGenerator : MonoBehaviour
 
             for (int j = 0; j < units.Count; j++)
             {
-                int xPos = xStartingTile + (j * xDirection) + (j * xDirection) + (3 * xDirection);
-                int yPos = yStartingTile + (j * yDirection) + (j * yDirection) + (3 * yDirection);
+                int xPos = xStartingTile + (j * xDirection) * 2 + (j * xDirection) + (4 * xDirection);
+                int yPos = yStartingTile + (j * yDirection) * 2 + (j * yDirection) + (4 * yDirection);
 
                 Unit newUnit = Instantiate(units[j], transform);
 
