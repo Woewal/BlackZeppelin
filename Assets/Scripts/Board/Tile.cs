@@ -57,7 +57,12 @@ public class Tile : MonoBehaviour
         }
 
         //check if color is valid for the player
-        if (unit.color != color && color != Unit.Color.Blank)
+        if (unit.color != color)
+        {
+            return false;
+        }
+
+        if(color == Obstacle.Color.Blank)
         {
             return false;
         }
@@ -81,6 +86,10 @@ public class Tile : MonoBehaviour
             case Unit.Color.Green:
                 color = Unit.Color.Green;
                 tileMaterial.color = UnityEngine.Color.green;
+                break;
+            case Unit.Color.Yellow:
+                color = Unit.Color.Yellow;
+                tileMaterial.color = UnityEngine.Color.yellow;
                 break;
         }
 

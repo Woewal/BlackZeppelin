@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Game.Obstacles;
+using System.Linq;
 
 namespace Game.Actions
 {
@@ -20,7 +21,7 @@ namespace Game.Actions
         {
             Unit unit = GameController.instance.roundController.currentUnit;
 
-            return GameController.instance.boardController.pathFinder.GetAllPaths(steps, unit);
+            return GameController.instance.boardController.pathFinder.GetAllPaths(steps, unit).Where(x => x.color == unit.color).ToList();
         }
         
         public override IEnumerator InvokeAction()

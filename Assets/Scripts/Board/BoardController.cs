@@ -16,6 +16,7 @@ public class BoardController : MonoBehaviour
         
     }
 
+    //Creates a pathfinder object that can be used to find the shortest path between two tiles.
     public void Initiate()
     {
         pathFinder = new PathFinder(tiles);

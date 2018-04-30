@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Obstacle : MonoBehaviour {
-    public enum Color { Blank, Red, Blue, Green };
+    public enum Color { Blank, Red, Blue, Green, Yellow };
 
     public Color color = Color.Red;
 

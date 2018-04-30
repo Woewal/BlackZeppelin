@@ -16,7 +16,10 @@ public class BoardSelection : MonoBehaviour
         {
             tile.UnHighLight();
         }
-        selectedTile.UnSelect();
+        if(selectedTile != null)
+        {
+            selectedTile.UnSelect();
+        }
         traversableTiles.Clear();
 
         foreach(var path in availablePaths)
@@ -76,6 +79,7 @@ public class BoardSelection : MonoBehaviour
         }
         selectedTile = tile;
         selectedTile.Select();
+        GameController.instance.cameraController.TargetPosition = tile.transform.position;
     }
 
     public void SelectPath(int index)

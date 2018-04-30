@@ -141,6 +141,6 @@ public class UnitSelectInput : MonoBehaviour
     void SelectUnit(Unit unit)
     {
         currentUnit = unit;
-        GameController.instance.cameraController.target = unit.gameObject;
+        GameController.instance.cameraController.TargetGameObject = unit.gameObject;
     }
 }

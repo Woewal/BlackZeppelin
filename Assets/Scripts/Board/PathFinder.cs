@@ -73,17 +73,17 @@ public class PathFinder
 
         openNodes.Add(unit.occupiedTile);
 
-        for (int x = 0; x < steps + 1; x++)
+        while (openNodes.Any())
         {
             List<Tile> nextNodes = new List<Tile>();
 
-            foreach(var tile in openNodes)
+            foreach (var tile in openNodes)
             {
-                foreach(var neighbour in GetNeighbours(tile))
+                foreach (var neighbour in GetNeighbours(tile))
                 {
-                    if(!closedNodes.Contains(neighbour))
+                    if (!closedNodes.Contains(neighbour))
                     {
-                        if(neighbour.CheckWalkAble(unit))
+                        if (neighbour.CheckWalkAble(unit))
                         {
                             nextNodes.Add(neighbour);
                         }
@@ -92,7 +92,7 @@ public class PathFinder
                 closedNodes.Add(tile);
             }
             openNodes.Clear();
-            foreach(var node in nextNodes)
+            foreach (var node in nextNodes)
             {
                 openNodes.Add(node);
             }
@@ -120,7 +120,7 @@ public class PathFinder
 
     void SetCurrentTile(Tile currentTile)
     {
-        for(int i = 0; i < openTiles.Count; i++)
+        for (int i = 0; i < openTiles.Count; i++)
         {
             if (openTiles[i].FStop < currentTile.FStop || openTiles[i].FStop == currentTile.FStop && openTiles[i].hCost < currentTile.hCost)
             {
@@ -133,15 +133,15 @@ public class PathFinder
     {
         List<Tile> neighboors = new List<Tile>();
 
-        if(tile.x - 1 >= 0)
+        if (tile.x - 1 >= 0)
         {
             neighboors.Add(tiles[tile.x - 1, tile.y]);
         }
-        if(tile.y - 1 >= 0)
+        if (tile.y - 1 >= 0)
         {
-            neighboors.Add(tiles[tile.x, tile.y -1]);
+            neighboors.Add(tiles[tile.x, tile.y - 1]);
         }
-        if(tile.x + 1 < tiles.GetLength(0))
+        if (tile.x + 1 < tiles.GetLength(0))
         {
             neighboors.Add(tiles[tile.x + 1, tile.y]);
         }
